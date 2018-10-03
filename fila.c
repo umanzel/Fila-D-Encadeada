@@ -19,6 +19,52 @@ typedef struct TipoFila {
      TipoApontador Frente, Tras;
 } TipoFila;
 
+void FFVazia(TipoFila *Fila); 
+int Vazia(TipoFila Fila);
+void Enfileira(TipoItem x, TipoFila *Fila); 
+void Desenfileira(TipoFila *Fila, TipoItem *Item); 
+void AumentaPrioridade(TipoFila *Fila, TipoItem *Item, TipoChave Chave);
+void Imprime(TipoFila Fila); 
+
+int main(int argc, char *argv[]) {
+     TipoFila fila;
+     TipoItem item;
+     TipoChave chave;
+     int opcao = 0, aux;
+     
+     FFVazia(&fila);
+     while(opcao != 6){
+          
+          printf("1-Lista Vazia 2-Enfileira 3-Desenfileira 4-Aumentar Prioridade 5-Imprimir 6-Sair\n");
+          
+          scanf("%d", &opcao);
+          
+          switch(opcao){
+               
+               case 1: FFVazia(&fila);
+               break;
+               
+               case 2: scanf("%d", &aux);
+               item.Chave = aux;  
+               Enfileira(item, &fila);
+               break;
+               
+               case 3: Desenfileira(&fila, &item);
+               break;
+               
+               case 4: scanf("%d", &aux);
+               chave = aux;
+               AumentaPrioridade(&fila, &item, chave);
+               break;
+               
+               case 5: Imprime(fila);
+               break; 
+               
+          }
+     }     
+     return 0;
+}
+
 void FFVazia(TipoFila *Fila) {
      Fila -> Frente = (TipoApontador) malloc(sizeof(TipoCelula));
      Fila -> Tras = Fila -> Frente;
@@ -67,11 +113,10 @@ void Imprime(TipoFila Fila) {
      }
 }
 
-int main(int argc, char *argv[]) {
-     TipoFila fila;
-     TipoItem item;
-
-     FFVazia(&fila);
-
-     return 0;
+void AumentaPrioridade(TipoFila *Fila, TipoItem *Item, TipoChave Chave) {
+     if(Vazia(*Fila)){
+          printf("Erro fila esta vazia\n");
+          return;
+     }
+     
 }
