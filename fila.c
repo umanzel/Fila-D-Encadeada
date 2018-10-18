@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
                AumentaPrioridade(&fila, &item, chave);
                break;
 
-               case 5: Imprime(fila);
+               case 5: Imprime(fila, 1);
                break;
 
           }
