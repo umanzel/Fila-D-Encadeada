@@ -105,10 +105,11 @@ void Desenfileira(TipoFila *Fila, TipoItem *Item) {
 
 void Imprime(TipoFila Fila, int direcao) {
      TipoApontador Aux;
-     Aux = Fila.Frente -> Prox;
+
      printf("\nProcessos na fila:\n");
      switch(direcao) {
           case 1:
+          Aux = Fila.Frente -> Prox;
           while(Aux != NULL) {
                printf("%d\n", Aux -> Item.Chave);
                Aux = Aux -> Prox;
@@ -116,6 +117,7 @@ void Imprime(TipoFila Fila, int direcao) {
           break;
 
           case 2:
+          Aux = Fila.Tras -> Ante;
           while(Aux != NULL) {
                printf("%d\n", Aux -> Item.Chave);
                Aux = Aux -> Ante;
