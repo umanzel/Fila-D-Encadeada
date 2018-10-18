@@ -87,7 +87,6 @@ int Vazia(TipoFila Fila) {
 void Enfileira(TipoItem x, TipoFila *Fila) {
      Fila -> Tras -> Prox = (TipoApontador) malloc(sizeof(TipoCelula));
      Fila -> Tras = Fila -> Tras -> Prox;
-     // Fila -> Tras -> Ante = Fila -> Tras;
      Fila -> Tras -> Item = x;
      Fila -> Tras -> Prox = NULL;
 }
@@ -104,13 +103,24 @@ void Desenfileira(TipoFila *Fila, TipoItem *Item) {
      free(q);
 }
 
-void Imprime(TipoFila Fila) {
+void Imprime(TipoFila Fila, int direcao) {
      TipoApontador Aux;
      Aux = Fila.Frente -> Prox;
      printf("\nProcessos na fila:\n");
-     while(Aux != NULL) {
-          printf("%d\n", Aux -> Item.Chave);
-          Aux = Aux -> Prox;
+     switch(direcao) {
+          case 1:
+          while(Aux != NULL) {
+               printf("%d\n", Aux -> Item.Chave);
+               Aux = Aux -> Prox;
+          }
+          break;
+
+          case 2:
+          while(Aux != NULL) {
+               printf("%d\n", Aux -> Item.Chave);
+               Aux = Aux -> Ante;
+          }
+          break;
      }
 }
 
