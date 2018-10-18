@@ -28,7 +28,7 @@ int Vazia(TipoFila Fila);
 void Enfileira(TipoItem x, TipoFila *Fila);
 void Desenfileira(TipoFila *Fila, TipoItem *Item);
 void AumentaPrioridade(TipoFila *Fila, TipoItem *Item, TipoChave Chave);
-void Imprime(TipoFila Fila);
+void Imprime(TipoFila Fila, int direcao);
 
 int main(int argc, char *argv[]) {
      TipoFila fila;
