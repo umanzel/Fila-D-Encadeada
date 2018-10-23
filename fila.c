@@ -1,6 +1,7 @@
-/*Exercício- Algoritmos e Estruturas de Dados I: Filas Duplamente Encadeadas
-Alunos: Alan Deivison, Bruno Terra, Illyana Avelar, Luan Ferreira, Yan Victor
-*/
+/*******************************************************************************
+*Exercício- Algoritmos e Estruturas de Dados I: Fila Duplamente Encadeadas     *
+*Alunos: Alan Deivson, Bruno Terra, Illyana Avelar, Luan Ferreira, Yan Victor  *
+*******************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,6 +32,8 @@ void Desenfileira(TipoFila *Fila, TipoItem *Item);
 void AumentaPrioridade(TipoFila *Fila, TipoChave Chave);
 void Imprime(TipoFila Fila, int direcao);
 
+//-----------------------------------------------------------
+//Illyana Avelar
 int main(int argc, char *argv[]) {
      TipoFila fila;
      TipoItem item;
@@ -82,24 +85,28 @@ int main(int argc, char *argv[]) {
      }
      return 0;
 }
-
+//-----------------------------------------------------------
+//Alan Deivson
 void Clear(){
      for(int i = 0 ; i < 100 ; i++){
           printf("\n");
      }
 }
-
+//-----------------------------------------------------------
+//Bruno Terra
 void FFVazia(TipoFila *Fila) {
      Fila -> Frente = (TipoApontador) malloc(sizeof(TipoCelula));
      Fila -> Tras = Fila -> Frente;
      Fila -> Frente -> Prox = NULL;
      Fila -> Frente -> Ante = NULL;
 }
-
+//-----------------------------------------------------------
+//Yan Carlos
 int Vazia(TipoFila Fila) {
      return (Fila.Frente == Fila.Tras);
 }
-
+//-----------------------------------------------------------
+//Luan Ferreira
 void Enfileira(TipoItem x, TipoFila *Fila) {
      TipoApontador Aux;
      Aux = Fila -> Tras;
@@ -109,7 +116,8 @@ void Enfileira(TipoItem x, TipoFila *Fila) {
      Fila -> Tras -> Prox = NULL;
      Fila -> Tras -> Ante = Aux;
 }
-
+//-----------------------------------------------------------
+//Illyana Avelar
 void Desenfileira(TipoFila *Fila, TipoItem *Item) {
      TipoApontador q;
      if(Vazia(*Fila)){
@@ -122,7 +130,8 @@ void Desenfileira(TipoFila *Fila, TipoItem *Item) {
      *Item = Fila -> Frente -> Item;
      free(q);
 }
-
+//-----------------------------------------------------------
+//Alan Deivson
 void Imprime(TipoFila Fila, int direcao) {
      TipoApontador Aux;
 
@@ -130,7 +139,7 @@ void Imprime(TipoFila Fila, int direcao) {
      switch(direcao) {
           case 1:
           Aux = Fila.Frente;
-          while(Aux != NULL) {
+          while(Aux != NULL && Aux -> Item.Chave != 0) {
                printf("%d\n", Aux -> Item.Chave);
                Aux = Aux -> Prox;
           }
@@ -138,16 +147,17 @@ void Imprime(TipoFila Fila, int direcao) {
 
           case 2:
           Aux = Fila.Tras;
-          while(Aux != NULL) {
+          while(Aux != NULL && Aux -> Item.Chave != 0) {
                printf("%d\n", Aux -> Item.Chave);
                Aux = Aux -> Ante;
           }
           break;
      }
 }
-
+//-----------------------------------------------------------
+//Luan Ferreira
 void AumentaPrioridade(TipoFila *Fila, TipoChave Chave) {
-     TipoApontador q, retorno, Aux;
+     TipoApontador q, retorno, Aux, Aux2, Aux3;
      TipoItem Item;
      Aux = Fila -> Frente;
 
@@ -173,19 +183,18 @@ void AumentaPrioridade(TipoFila *Fila, TipoChave Chave) {
 		printf("Não foi possivel retirar esse item da lista.\n");
 		return;
 	}
+     Aux2 = retorno;
 	q = retorno -> Prox;
 	Item = q -> Item;
 	retorno -> Prox = q -> Prox;
+     Aux3 = q -> Prox;
+     Aux3 -> Ante = Aux2;
 	if(retorno -> Prox == NULL){
 		Fila -> Tras = retorno;
 	}
 	free(q);
 
      //Coloca no começo
-     if(Vazia(*Fila)){
-          printf("Erro fila esta vazia\n");
-          return;
-     }
      Fila -> Frente -> Ante = (TipoApontador) malloc(sizeof(TipoCelula));
      Fila -> Frente = Fila -> Frente -> Ante;
      Fila -> Frente -> Item = Item;
