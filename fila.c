@@ -23,11 +23,12 @@ typedef struct TipoFila {
      TipoApontador Frente, Tras;
 } TipoFila;
 
+void Clear();
 void FFVazia(TipoFila *Fila);
 int Vazia(TipoFila Fila);
 void Enfileira(TipoItem x, TipoFila *Fila);
 void Desenfileira(TipoFila *Fila, TipoItem *Item);
-void AumentaPrioridade(TipoFila *Fila, TipoItem *Item, TipoChave Chave);
+void AumentaPrioridade(TipoFila *Fila, TipoChave Chave);
 void Imprime(TipoFila Fila, int direcao);
 
 int main(int argc, char *argv[]) {
@@ -38,30 +39,43 @@ int main(int argc, char *argv[]) {
 
      FFVazia(&fila);
      while(opcao != 6){
-
-          printf("1-Lista Vazia 2-Enfileira 3-Desenfileira 4-Aumentar Prioridade 5-Imprimir 6-Sair\n");
+          printf("1-Lista Vazia \n2-Enfileira \n3-Desenfileira \n4-Aumentar Prioridade \n5-Imprimir \n6-Sair\n");
 
           scanf("%d", &opcao);
 
           switch(opcao){
 
-               case 1: FFVazia(&fila);
+               case 1:
+               Clear();
+               FFVazia(&fila);
                break;
 
-               case 2: scanf("%d", &aux);
+               case 2:
+               Clear();
+               printf("%s", "Valor: ");
+               scanf("%d", &aux);
                item.Chave = aux;
                Enfileira(item, &fila);
                break;
 
-               case 3: Desenfileira(&fila, &item);
+               case 3:
+               Clear();
+               Desenfileira(&fila, &item);
                break;
 
-               case 4: scanf("%d", &aux);
+               case 4:
+               Clear();
+               printf("%s", "Valor prioritario: ");
+               scanf("%d", &aux);
                chave = aux;
-               AumentaPrioridade(&fila, &item, chave);
+               AumentaPrioridade(&fila, chave);
                break;
 
-               case 5: Imprime(fila, 1);
+               case 5:
+               Clear();
+               printf("%s\n", "Imprimir [1]Normal ou [2]Invertido?");
+               scanf("%d", &aux);
+               Imprime(fila, aux);
                break;
 
           }
@@ -69,36 +83,42 @@ int main(int argc, char *argv[]) {
      return 0;
 }
 
+void Clear(){
+     for(int i = 0 ; i < 100 ; i++){
+          printf("\n");
+     }
+}
+
 void FFVazia(TipoFila *Fila) {
      Fila -> Frente = (TipoApontador) malloc(sizeof(TipoCelula));
      Fila -> Tras = Fila -> Frente;
      Fila -> Frente -> Prox = NULL;
-     Fila -> Tras -> Ante = NULL;
+     Fila -> Frente -> Ante = NULL;
 }
 
 int Vazia(TipoFila Fila) {
-     int vazia = 0;
-     if((Fila.Frente -> Prox = NULL) && (Fila.Tras -> Ante = NULL)){
-          vazia = 1;
-     }
-     return (vazia);
+     return (Fila.Frente == Fila.Tras);
 }
 
 void Enfileira(TipoItem x, TipoFila *Fila) {
+     TipoApontador Aux;
+     Aux = Fila -> Tras;
      Fila -> Tras -> Prox = (TipoApontador) malloc(sizeof(TipoCelula));
      Fila -> Tras = Fila -> Tras -> Prox;
      Fila -> Tras -> Item = x;
      Fila -> Tras -> Prox = NULL;
+     Fila -> Tras -> Ante = Aux;
 }
 
 void Desenfileira(TipoFila *Fila, TipoItem *Item) {
      TipoApontador q;
      if(Vazia(*Fila)){
-          printf("Erro fila esta vazia\n");
+          printf("Erro, fila esta vazia\n");
           return;
      }
      q = Fila -> Frente;
      Fila -> Frente = Fila -> Frente -> Prox;
+     Fila -> Frente -> Ante = NULL;
      *Item = Fila -> Frente -> Item;
      free(q);
 }
@@ -109,7 +129,7 @@ void Imprime(TipoFila Fila, int direcao) {
      printf("\nProcessos na fila:\n");
      switch(direcao) {
           case 1:
-          Aux = Fila.Frente -> Prox;
+          Aux = Fila.Frente;
           while(Aux != NULL) {
                printf("%d\n", Aux -> Item.Chave);
                Aux = Aux -> Prox;
@@ -117,7 +137,7 @@ void Imprime(TipoFila Fila, int direcao) {
           break;
 
           case 2:
-          Aux = Fila.Tras -> Ante;
+          Aux = Fila.Tras;
           while(Aux != NULL) {
                printf("%d\n", Aux -> Item.Chave);
                Aux = Aux -> Ante;
@@ -126,10 +146,18 @@ void Imprime(TipoFila Fila, int direcao) {
      }
 }
 
-void AumentaPrioridade(TipoFila *Fila, TipoItem *Item, TipoChave Chave) {
+void AumentaPrioridade(TipoFila *Fila, TipoChave Chave) {
+     TipoApontador Aux;
+     TipoItem item;
+     item.Chave = Chave;
+     Aux = Fila -> Frente;
      if(Vazia(*Fila)){
           printf("Erro fila esta vazia\n");
           return;
      }
-
+     Fila -> Frente -> Ante = (TipoApontador) malloc(sizeof(TipoCelula));
+     Fila -> Frente = Fila -> Frente -> Ante;
+     Fila -> Frente -> Item = item;
+     Fila -> Frente -> Ante = NULL;
+     Fila -> Frente -> Prox = Aux;
 }
